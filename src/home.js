@@ -32,12 +32,17 @@ class home extends Component
 
         }
        
-    firebase.database().ref('/').child('question').on('child_added',(ev)=>
+ firebase.database().ref('/').child('question').on('child_added',(ev)=>
     {
 
-    
+
+        console.log(' firebase.database().ref('/')')
+        
     let pollObject = ev.val();
-    console.log(pollObject.vote)
+    // console.log(pollObject.vote)
+    this.setState({
+        votes : pollObject.vote
+    })
     pollObject.id = ev.key;
     let dummyState = this.state.poll
     dummyState.push(pollObject);
@@ -45,9 +50,20 @@ class home extends Component
         poll : dummyState
     })
 
-    console.log(this.state.poll)
+    // console.log(this.state.poll)
     }
 )
+
+firebase.database().ref('/').child('question').on('child_removed',(ev)=>
+{
+console.log('deleted')
+
+})
+firebase.database().ref('/').child('question').on('value',(ev)=>
+{
+console.log('changed')
+
+})
 
 // this.voteHandler = this.voteHandler.bind(this)
 
@@ -115,6 +131,7 @@ console.log('id',params)
 console.log('ev',ev)
 // console.log('aaaaaa',a)
 firebase.database().ref('/').child('question/'+params+'/vote').update(this.state.votes)
+// firebase.database().ref('/').child('question/'+params+'/vote').update(this.state.votes)
 // firebase.database().ref('question/'+params).update('79');
 
 // const rootRef = firebase.database().ref('question/-L13CowLViEGwIvI3uWR/vote')
@@ -127,14 +144,14 @@ firebase.database().ref('/').child('question/'+params+'/vote').update(this.state
 // })
 
 }
-render(a){
+render(){
 
     return(
         <div>
 <button onClick={this.createNew.bind(this)}>Create New Question</button>
         {this.state.poll.map((values, numbers) =>{
-            console.log('values', values)
-            console.log('values.id', values.id)
+            // console.log('values', values)
+            // console.log('values.id', values.id)
             // console.log('keys', numbers)
             // console.log('numbers.toString()', numbers)
         
@@ -145,7 +162,7 @@ render(a){
 
         <div>
   
-    {this.update}
+
     {/* {<h3>weef {a}</h3>} */}
 {/* <button onClick={}>Login</button> */}
         {/* <h1>home</h1> */}
@@ -153,13 +170,13 @@ render(a){
 <h3>Current Polls</h3>
 <label><h6>Question : {values['question']}</h6> </label><br/>
 
-    <label onClick={this.voteHandler.bind(this ,values.id,'a')  } value='a'>a<input name='radioGroup'  type='radio' />{values['option1']}</label><br/>
+    <label onClick={this.voteHandler.bind(this ,values.id,'a')  }>a<input name='radioGroup'  type='radio' />{values['option1']}</label><br/>
     <label>b<input name='radioGroup'  type='radio' />{values['option2']}</label><br/>
     <label>c<input name='radioGroup'  type='radio' />{values['option3']}</label><br/>
     <label>d<input name='radioGroup'  type='radio' />{values['option4']}</label><br/>
     <button>Submit vote</button>
     votes :  a  {values.vote['a']}  b : {values.vote['b']}
-    votes :  a  {values.vote['c']}  b : {values.vote['d']}
+    votes :  b  {values.vote['c']}  b : {values.vote['d']}
 
 
 </div>
