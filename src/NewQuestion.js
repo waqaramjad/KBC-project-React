@@ -29,7 +29,13 @@ constructor(props)
             option1 : '',
             option2 : '',
             option3 : '',
-            option4 : ''
+            option4 : '',
+            vote:{
+                a : 0,
+                b : 0,
+                c : 0,
+                d : 0
+            }
         },
         name :25
     }
