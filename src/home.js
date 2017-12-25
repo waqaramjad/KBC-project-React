@@ -54,18 +54,18 @@ class home extends Component
     }
 )
 
-firebase.database().ref('/').child('question').on('child_removed',(ev)=>
-{
-console.log('deleted')
+// firebase.database().ref('/').child('question').on('child_removed',(ev)=>
+// {
+// console.log('deleted')
 
-})
+// })
 firebase.database().ref('/').child('question').on('value',(ev)=>
 {
 console.log('changed')
 
 })
 
-// this.voteHandler = this.voteHandler.bind(this)
+this.voteHandler = this.voteHandler.bind(this)
 
     }
         
@@ -130,7 +130,7 @@ console.log(this.state.votes)
 console.log('id',params)
 console.log('ev',ev)
 // console.log('aaaaaa',a)
-firebase.database().ref('/').child('question/'+params+'/vote').update(this.state.votes)
+firebase.database().ref('/').child('question/'+params+'/vote').set(this.state.votes)
 // firebase.database().ref('/').child('question/'+params+'/vote').update(this.state.votes)
 // firebase.database().ref('question/'+params).update('79');
 
@@ -170,10 +170,10 @@ render(){
 <h3>Current Polls</h3>
 <label><h6>Question : {values['question']}</h6> </label><br/>
 
-    <label onClick={this.voteHandler.bind(this ,values.id,'a')  }>a<input name='radioGroup'  type='radio' />{values['option1']}</label><br/>
-    <label>b<input name='radioGroup'  type='radio' />{values['option2']}</label><br/>
-    <label>c<input name='radioGroup'  type='radio' />{values['option3']}</label><br/>
-    <label>d<input name='radioGroup'  type='radio' />{values['option4']}</label><br/>
+    <label >a<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'a')  } />{values['option1']}</label><br/>
+    <label>b<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'b')  } />{values['option2']}</label><br/>
+    <label>c<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'c')  } />{values['option3']}</label><br/>
+    <label>d<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'d')  } />{values['option4']}</label><br/>
     <button>Submit vote</button>
     votes :  a  {values.vote['a']}  b : {values.vote['b']}
     votes :  b  {values.vote['c']}  b : {values.vote['d']}
