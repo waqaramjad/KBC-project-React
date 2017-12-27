@@ -59,11 +59,11 @@ class home extends Component
 // console.log('deleted')
 
 // })
-firebase.database().ref('/').child('question').on('value',(ev)=>
-{
-console.log('changed')
+// firebase.database().ref('/').child('question/-L1D2xPrrxDTpM7WxkZw').on('value',(ev)=>
+// {
+// console.log('changed value')
 
-})
+// })
 
 this.voteHandler = this.voteHandler.bind(this)
 
@@ -114,23 +114,33 @@ this.props.history.push('/newquestion');
 
 
 
-voteHandler(params ,ev ,a){
+voteHandler(params ,ev ,voteObject,a){
+// console.log(voteObject.ev);
 
+let dummyVoteForFirebase = voteObject
+// con
+// dummyVoteForFirebase.ev = dummyVoteForFirebase.ev+1;
+voteObject[ev] = voteObject[ev]+1;
+console.log(voteObject)
+
+
+
+//*********************************************** */
 
 let dummyVoteState = this.state.votes
 
-dummyVoteState
+
 dummyVoteState[ev] = dummyVoteState[ev]+1;
-console.log(dummyVoteState)
+// console.log(dummyVoteState)
 
 this.setState({
     votes : dummyVoteState
 })
-console.log(this.state.votes)
-console.log('id',params)
-console.log('ev',ev)
-// console.log('aaaaaa',a)
-firebase.database().ref('/').child('question/'+params+'/vote').set(this.state.votes)
+// console.log(this.state.votes)
+// console.log('id',params)
+// console.log('ev',ev)
+// console.log('aaaaaa',a)'
+firebase.database().ref('/').child('question/'+params+'/vote').set(voteObject)
 // firebase.database().ref('/').child('question/'+params+'/vote').update(this.state.votes)
 // firebase.database().ref('question/'+params).update('79');
 
@@ -170,10 +180,10 @@ render(){
 <h3>Current Polls</h3>
 <label><h6>Question : {values['question']}</h6> </label><br/>
 
-    <label >a<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'a')  } />{values['option1']}</label><br/>
-    <label>b<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'b')  } />{values['option2']}</label><br/>
-    <label>c<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'c')  } />{values['option3']}</label><br/>
-    <label>d<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'d')  } />{values['option4']}</label><br/>
+    <label >a<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'a',values.vote)  } />{values['option1']}</label><br/>
+    <label>b<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'b',values.vote)  } />{values['option2']}</label><br/>
+    <label>c<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'c',values.vote)  } />{values['option3']}</label><br/>
+    <label>d<input name='radioGroup'  type='radio' onClick={this.voteHandler.bind(this ,values.id,'d',values.vote)  } />{values['option4']}</label><br/>
     <button>Submit vote</button>
     votes :  a  {values.vote['a']}  b : {values.vote['b']}
     votes :  b  {values.vote['c']}  b : {values.vote['d']}
